@@ -98,7 +98,7 @@ async function setupGo(version: string): Promise < void > {
             await runCommand('test -L /usr/bin/go', process.cwd());
             await runCommand('sudo rm -f /usr/bin/go', process.cwd());
             core.info('Removed existing /usr/bin/go symlink');
-        } catch () {
+        } catch (error) {
             core.info('/usr/bin/go does not exist, skipping removal');
         }
 
