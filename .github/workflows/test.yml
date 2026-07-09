@@ -1,0 +1,47 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - run: npm ci
+      - run: npm run build
+
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test Action
+        uses: ./
+        with:
+          ndk-version: 'android-ndk-r26b'
+          go-version: '1.26.5'
+          abi: 'arm64-v8a'
+          gitrepo: 'https://github.com/esengine/deepseek-reasonix.git'
+          branch: 'main-v2'
+          cmd: 'go build ./cmd/reasonix'
+          min-sdk: '34'
+
+      - name: Verify outputs
+        run: |
+          echo "NDK: ${{ steps.test.outputs.ndk-path }}"
+          echo "CC: ${{ steps.test.outputs.cc-path }}"
+          echo "GOARCH: ${{ steps.test.outputs.goarch }}"
+          go version
+          echo "CGO_ENABLED=$CGO_ENABLED"
+          echo "GOOS=$GOOS"
+          echo "GOARCH=$GOARCH"
+          echo "CC=$CC"

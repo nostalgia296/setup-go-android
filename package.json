@@ -1,0 +1,39 @@
+{
+  "name": "setup-go-android",
+  "version": "1.0.0",
+  "description": "GitHub Action to setup Go and Android NDK for cross-compilation",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ncc build src/index.ts -o dist",
+    "lint": "eslint src/**/*.ts",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/setup-go-android.git"
+  },
+  "keywords": [
+    "github-actions",
+    "go",
+    "android",
+    "ndk",
+    "cross-compilation"
+  ],
+  "author": "nostalgia296",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/exec": "^1.1.1",
+    "@actions/io": "^1.1.3",
+    "@actions/tool-cache": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@typescript-eslint/eslint-plugin": "^8.32.0",
+    "@typescript-eslint/parser": "^8.32.0",
+    "@vercel/ncc": "^0.38.1",
+    "eslint": "^9.26.0",
+    "jest": "^29.7.0",
+    "typescript": "^5.4.0"
+  }
+}

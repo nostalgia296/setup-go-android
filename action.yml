@@ -1,0 +1,46 @@
+name: 'Setup Go Android Environment'
+description: 'Setup Go and Android NDK for cross-compilation to Android, clone repo and run custom commands'
+author: 'nostalgia296'
+branding:
+  icon: 'smartphone'
+  color: 'green'
+
+inputs:
+  ndk-version:
+    description: 'Android NDK version (e.g., android-ndk-r26b)'
+    required: true
+  go-version:
+    description: 'Go version (e.g., 1.22.5)'
+    required: true
+  abi:
+    description: 'Target ABI (arm64-v8a, armeabi-v7a, x86_64, x86)'
+    required: true
+    default: 'arm64-v8a'
+  min-sdk:
+    description: 'Minimum Android SDK version'
+    required: false
+    default: '21'
+  gitrepo:
+    description: 'GitHub repository URL to clone (e.g., https://github.com/user/repo.git)'
+    required: false
+  cmd:
+    description: 'Command to run inside the cloned repository directory'
+    required: false
+  branch:
+    description: 'Git branch to checkout (default: main)'
+    required: false
+    default: 'main'
+
+outputs:
+  ndk-path:
+    description: 'Path to installed NDK'
+  cc-path:
+    description: 'Path to C compiler'
+  goarch:
+    description: 'Go architecture target'
+  repo-path:
+    description: 'Path to cloned repository'
+
+runs:
+  using: 'node24'
+  main: 'dist/index.js'
