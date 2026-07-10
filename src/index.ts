@@ -125,7 +125,6 @@ async function setupGo(version: string): Promise < void > {
     }
 }
 
-
 async function setupNDK(workdir: string, ndkVersion: string): Promise < void > {
     const zipFile = `${ndkVersion}-linux.zip`;
     const downloadUrl = `https://dl.google.com/android/repository/${zipFile}`;
@@ -138,10 +137,10 @@ async function setupNDK(workdir: string, ndkVersion: string): Promise < void > {
     }
 
     core.info(`Downloading Android NDK ${ndkVersion}...`);
-    await exec.exec('curl', ['-L', downloadUrl, '--output', zipPath]);
+    await runCommand(`curl -L ${downloadUrl} --output ${zipPath}`, workdir);
 
     core.info('Extracting NDK...');
-    await exec.exec('unzip', ['-q', zipPath, '-d', workdir]);
+    await runCommand(`unzip -q ${zipPath} -d ${workdir}`, workdir);
     await io.rmRF(zipPath);
 
     core.info('NDK installed');
@@ -160,7 +159,7 @@ async function cloneRepo(workdir: string, repoUrl: string, branch: string): Prom
         await io.rmRF(targetPath);
     }
 
-    await exec.exec('git', ['clone', '--depth', '1', '--branch', branch, repoUrl, targetPath]);
+    await runCommand(`git clone --depth 1 --branch ${branch} ${repoUrl} ${targetPath}`, workdir);
 
     core.info(`Repository cloned to: ${targetPath}`);
     return targetPath;
@@ -195,7 +194,7 @@ async function verifyInstallation(ccPath: string): Promise < void > {
     }
 
     try {
-        await exec.exec('go', ['version']);
+        await runCommand('go version', process.cwd());
     } catch {
         core.warning('Go version check failed');
     }
